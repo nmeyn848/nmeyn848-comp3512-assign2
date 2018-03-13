@@ -4,7 +4,7 @@
 
 define('HOST', 'localhost');
 define('DB','travel');
-define('USER','nmeyn848');
+define('USER','aente721');
 define('PASS','');
 define('CONN','mysql:host='.HOST.';dbname='.DB);
 

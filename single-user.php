@@ -43,7 +43,7 @@
                 
                 if ($statement->rowCount() > 0){ 
                     while ($record = $statement -> fetch()){
-                        echo "<div class='col-md-1'><img src='/images/square-small/".$record["Path"]."'><a href='single-image.php?id=".$record["ImageID"]." class='img-responsive'></div>";
+                        echo "<div class='col-md-1'><a href='single-image.php?id=".$record["ImageID"]." class='img-responsive'><img src='/images/square-small/".$record["Path"]."'></a></div>";
                         
                     }
                     echo "</div></div></div>";

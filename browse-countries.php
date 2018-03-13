@@ -21,7 +21,7 @@
                         $result = $pdo->query($sql);
                     
                         while ($record = $result -> fetch()){
-                            echo "<div class='col-md-3'><a href='single-country.php?id=".$record["CountryCodeISO"]."'>".$record["CountryName"]."</div>";
+                            echo "<div class='col-md-3'><a href='single-country.php?id=".$record["CountryCodeISO"]."'>".$record["CountryName"]."</a></div>";
                         }
                     ?>
                 </div>
