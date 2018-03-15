@@ -17,8 +17,21 @@
                 <div class='panel-body'>
                     <div class='row'>
                     <?php
-                        $result = $db->findById(1);
-                        echo "Post Time: ".$result['PostTime'];
+                        $result = $db->findViaJoin("u");
+                        $images = $db->findViaJoin("i");
+                        foreach($images as $image) {
+                          //fix later  
+                        } 
+                        foreach($result as $post) {
+                            echo "<div class='col-md-2'><img src='images/square-medium/" . $image['Path'] . "'/></div>";
+                            echo "<div class='col-md-10'><h2>".$post['Title']."</h2><br>";
+                            echo "<p>Posted By: " . $post['FirstName'] . " " . $post['LastName'] . "<span class='pull-right'>";
+                            echo $post['PostTime']."</span></p>";//fix date formatting
+                            echo "<p>".substr($post['Message'],0,200)."...</p>";
+                            echo "<a href='single-post.php?id=" . $post['PostID'] . "'>Read More</a>"; //add a link to single-post + button design
+                            echo "</div>";
+                        }
+                        
                     ?>
                 </div>
             </div>

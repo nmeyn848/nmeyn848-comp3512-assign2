@@ -18,7 +18,7 @@
           <div class="panel-body">
             <form action="browse-images.php" method="get" class="form-horizontal">
               <div class="form-inline">
-              <select name="continent" class="form-control">
+              <select  name="continent" class="form-control" onchange="this.form.submit()">
                 <option value="0">Select Continent</option>
                 <?php /* display list of continents */ 
                    
@@ -35,7 +35,7 @@
                 ?>
               </select>     
               
-              <select name="country" class="form-control">
+              <select name="country" class="form-control" onchange="this.form.submit()" >
                 <option value="0">Select Country</option>
                 <?php /* display list of countries */ 
                 
@@ -51,7 +51,7 @@
                   }
                 ?>
               </select> 
-              <select name="city" class="form-control">
+              <select name="city" class="form-control" onchange="this.form.submit()" >
                 <option value="0">Select City</option>
                 <?php /* display list of countries */ 
                 
@@ -67,8 +67,7 @@
                   }
                 ?>
               </select>   
-              <input type="text"  placeholder="Search title" class="form-control" name=title>
-              <button type="submit" class="btn btn-primary">Filter</button>
+              <input type="text"  placeholder="Search title" class="form-control" name=title onchange="this.form.submit()" >
               </div>
             </form>
 
@@ -134,5 +133,20 @@
         include "includes/footer.inc.php"; ?>
     
 </body>
+<script>
+  // var form = document.getElementById("filter-images");
+  
+  // document.getElementById("filter-images").addEventListener("onchange", function () {
+  //   form.submit();
+  // });
+  // var filter = document.getElementByTagName('select');
+  // for (i = 0; i < y.length; i++) {
+  //   filter[i].submit();
+  //   // addEventListener('click',function(event) {
+  //   //   event.preventDefault();
+      
+  //   //   }
+  //   // );
 
+</script>
 </html>

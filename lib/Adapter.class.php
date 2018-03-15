@@ -79,7 +79,7 @@ abstract class Adapter
    } 
    
    /*
-      Returns a record for the specificed ID
+      Returns a record for the specified ID
    */
    public function findById($id){
       $sql = $this->getSelectStatement() . ' WHERE ' .
@@ -88,7 +88,22 @@ abstract class Adapter
       $statement = DatabaseHelper::runQuery($this->connection, $sql,
       Array(':id' => $id));
       return $statement->fetch();
-   }   
+   }
+   
+   /*
+      Returns records for two joined tables
+   */
+   public function findViaJoin($tableJoin){
+      if ($tableJoin == "u") {
+         $sql = $this->getViaJoinUsers();
+      } else if ($tableJoin == "i") {
+         $sql = $this->getViaJoinImages();
+      }
+      $statement = DatabaseHelper::runQuery($this->connection, $sql, null);
+      return $statement->fetchAll();
+   }
+   
+   
  
 
 }
