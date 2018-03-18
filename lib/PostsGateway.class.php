@@ -15,12 +15,13 @@
         protected function getPrimaryKeyName() {
             return "PostID";
         }
+        
         protected function getViaJoinUsers(){
             return "SELECT PostID, Posts.UserID, Users.UserID, Users.FirstName, Users.LastName, Title, Message, PostTime FROM Posts, Users WHERE Posts.UserID = Users.UserID";
         }
         
-        protected function getViaJoinImages(){
-            return "SELECT PostID, Posts.MainPostImage, ImageDetails.ImageID, ImageDetails.Path FROM Posts, ImageDetails WHERE Posts.MainPostImage = ImageDetails.ImageID";
+        protected function getViaJoinImages() {
+            return "SELECT PostID, Posts.MainPostImage, ImageDetails.ImageID, ImageDetails.Path, Posts.Title, Posts.Message, Posts.PostTime FROM Posts, ImageDetails WHERE Posts.MainPostImage = ImageDetails.ImageID";
         }
     }
 

@@ -96,14 +96,35 @@ abstract class Adapter
    public function findViaJoin($tableJoin){
       if ($tableJoin == "u") {
          $sql = $this->getViaJoinUsers();
-      } else if ($tableJoin == "i") {
+      } 
+      else if ($tableJoin == "i") {
          $sql = $this->getViaJoinImages();
       }
+      else if ($tableJoin == "country") {
+         $sql = $this->getViaJoinCountries();
+      }
+      else if ($tableJoin == "city") {
+         $sql = $this->getViaJoinCities();
+      }
+      
       $statement = DatabaseHelper::runQuery($this->connection, $sql, null);
       return $statement->fetchAll();
    }
    
-   
+   public function findByNonPrimaryID($field, $id){
+      
+      if ($field == "Title"){
+         
+         $sql = $this->getSelectStatement() . ' WHERE ' . $field . ' LIKE :id';
+         
+      }else {
+      
+         $sql = $this->getSelectStatement() . ' WHERE ' . $field . '=:id';
+      }
+      $statement = DatabaseHelper::runQuery($this->connection, $sql,
+      Array(':id' => $id));
+      return $statement->fetchAll();
+   }
  
 
 }

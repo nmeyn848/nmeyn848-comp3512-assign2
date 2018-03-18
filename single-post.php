@@ -4,7 +4,9 @@
      <title>Assign 1 (Winter 2018)</title>
     <?php //taken from labs 
         include "includes/css.inc.php"; 
-        include "includes/db_config.inc.php"; ?>
+        include "includes/db_config.inc.php"; 
+        $db = new PostsGateway($connection); 
+    ?>
 </head>
 
 <body>
@@ -15,7 +17,7 @@
                <div class="col-md-10">
                     <div class="col-md-8">
                          <?php 
-                            $sql = " SELECT p.PostID, p.Title, p.Message, p.PostTime, p.MainPostImage, u.FirstName, u.LastName, i.Path FROM Posts AS p JOIN Users AS u ON p.UserID = u.UserID JOIN ImageDetails i ON p.MainPostImage = i.ImageID WHERE PostID = :id";
+                            $sql = "SELECT p.PostID, u.UserID, p.Title, p.Message, p.PostTime, p.MainPostImage, u.FirstName, u.LastName, i.Path FROM Posts AS p JOIN Users AS u ON p.UserID = u.UserID JOIN ImageDetails i ON p.MainPostImage = i.ImageID WHERE PostID = :id";
                             $statement = $pdo->prepare($sql);
                             $statement->bindValue(':id',$_GET["id"]);
                             $statement->execute();
@@ -37,16 +39,22 @@
                         <!-- taken from labs -->
                             <div class="btn-group btn-group-justified" roll="group">
                                 <div class="btn-group" roll="group">
-                                    <button class ="btn btn-default" type="button"><span class="glyphicon glyphicon-heart"></span></button>
-                                </div>
-                                <div class="btn-group" roll="group">
-                                    <button class ="btn btn-default" type="button"><span class="glyphicon glyphicon-save"></span></button>
-                                </div>
-                                <div class="btn-group" roll="group">
-                                    <button class ="btn btn-default" type="button"><span class="glyphicon glyphicon-print"></span></button>
-                                </div>
-                                <div class="btn-group" roll="group">
-                                    <button class ="btn btn-default" type="button"><span class="glyphicon glyphicon-comment"></span></button>
+                                    <?php
+                                        include 'set-fav.php';
+                                        if($_GET['fav'] == true) {
+                                            setFavPost($_GET['id']);
+                                        }
+                                        echo "<a href='single-post.php?id=" . $_GET['id']. "&fav=true'>";
+                                        echo '<button class ="btn btn-default" type="button"><span class="glyphicon glyphicon-heart"></span> Add to Favorites</button></a>';
+                                        /*
+                                        $records = $db->findViaJoin('i');
+                                        foreach($records as $record) {
+                                            if($record['PostID'] == $_GET['id']) {
+                                                
+                                            }
+                                        }
+                                        */
+                                    ?>
                                 </div>
                             </div>
                             <div class="panel panel-default">

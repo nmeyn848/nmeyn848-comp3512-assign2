@@ -5,6 +5,12 @@
     <?php //taken from labs 
         include "includes/css.inc.php"; 
         include "includes/db_config.inc.php"; ?>
+        <style>
+       #map {
+        height: 250px;
+        width: 100%;
+       }
+    </style>
 </head>
 
 <body>
@@ -15,7 +21,7 @@
                <div class="col-md-10">
                     <div class="col-md-8">
                          <?php 
-                            $sql = "SELECT i.ImageID, i.UserID, i.Title, i.Description, i.Path, u.FirstName, u.LastName, i.CountryCodeISO, c.CountryName, c.ISO, ct.AsciiName, ct.CityCode FROM ImageDetails AS i JOIN Users AS u ON i.UserID=u.UserID JOIN Countries AS c ON i.CountryCodeISO=c.ISO JOIN Cities AS ct ON ct.CityCode=i.CityCode WHERE ImageID= :id";
+                            $sql = "SELECT i.ImageID, i.Latitude, i.Longitude, i.UserID, i.Title, i.Description, i.Path, u.FirstName, u.LastName, i.CountryCodeISO, c.CountryName, c.ISO, ct.AsciiName, ct.CityCode FROM ImageDetails AS i JOIN Users AS u ON i.UserID=u.UserID JOIN Countries AS c ON i.CountryCodeISO=c.ISO JOIN Cities AS ct ON ct.CityCode=i.CityCode WHERE ImageID= :id";
                             $statement = $pdo->prepare($sql);
                             $statement->bindValue(':id',$_GET["id"]);
                             $statement->execute();
@@ -29,7 +35,14 @@
                                     echo '<li class="list-group-item">By: <a href="single-user.php?id='.$record["UserID"].'">'.$record["FirstName"].' '.$record["LastName"].'</a></li>';
                                     echo '<li class="list-group-item">Country : <a href="single-country.php?id='.$record["CountryCodeISO"].'">'.$record["CountryName"].'</a></li>';
                                     echo '<li class="list-group-item">City: '.$record["AsciiName"].'</a></li></ul></div></div>';
-                                    
+                                    echo '<div id="map"></div>';
+                                    echo '<script>';
+                                    echo 'function initMap() {';
+                                    echo 'var uluru = {lat:'.$record["Latitude"].', lng:'.$record["Longitude"].'};';
+                                        echo 'var map = new google.maps.Map(document.getElementById("map"), { zoom: 4, center: uluru });';
+                                        echo 'var marker = new google.maps.Marker({position: uluru, map: map });}';
+                                    echo '</script>';
+                                    echo '<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBuI02Z5KzIBl3jXFKnqK32QjOpWxpy5II&callback=initMap"></script>';
                                 }
                             }else{
                                 header('Location: error.php');

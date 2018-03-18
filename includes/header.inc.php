@@ -4,8 +4,16 @@
             <div class="container">
                 <div class="pull-right">
                     <ul class="list-inline">
-                        <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
-                        <li><a href="#"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
+                        <li>
+                            <?php 
+                                if(isset($_COOKIE['user'])){
+                                    echo "<a href='clear-session.php'><span class='glyphicon glyphicon-log-out'></span> Logout</a>";
+                                } else {
+                                    echo "<a href='login.php'><span class='glyphicon glyphicon-log-in'></span> Login</a>'";
+                                }
+                            ?>
+                        </li> <!-- needs to change for logins and logouts -->
+                        <li><a href="userProfile.php"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
                         <li><a href="#"><span class="glyphicon glyphicon-star"></span> Favorites</a></li>
                     </ul>
                 </div>

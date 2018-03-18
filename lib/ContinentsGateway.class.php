@@ -1,20 +1,20 @@
 <?php
 
-class ImagesGateway extends Adapter {
+class ContinentsGateway extends Adapter {
     public function __construct($connect) {
     parent::__construct($connect);
     }
      
     protected function getSelectStatement(){
-        return "SELECT ImageID, UserID, Title, Description, Latitude, Longitude, CityCode, CountryCodeISO, ContinentCode, Path FROM ImageDetails ";
+        return "SELECT ContinentCode, ContinentName, GeoNameID FROM Continents ";
     }
      
     protected function getOrderFields() {
-        return 'Title';
+        return 'ContinentName';
     }
     
     protected function getPrimaryKeyName() {
-        return "ImageID";
+        return "ContinentCode";
     }
 }
 
