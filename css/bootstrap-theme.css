@@ -1,5 +1,5 @@
 .topHeaderRow {
-  background-color: #1A237E;
+  background-color: #DF8A13;
   height: 3em;
   font-size: 0.8em;
   padding-top: 1em;
@@ -12,7 +12,7 @@
 }
 
 .navbar-brand {
-    font-family: lobster, serif;
+    font-family: Mina, sans-serif;
     font-size: 32px;
 }
 
@@ -44,14 +44,14 @@
 }
 
 footer {
-   background-color:  #303F9F;  
-    color: #E8EAF6;
+   background-color:  #E8EAF6;  
+    color: rgb(238, 238, 238);
     font-size: 80%;
 }
 footer .final {
         padding-top: 10px;
 margin-top: 10px;
-    background-color:  #1A237E; 
+    background-color:  #DF8A13; 
     text-align: center;
 }
 
@@ -69,5 +69,4 @@ footer hr {
 .caption-style-2 .caption-text {
     width: 150px;
     height: 150px;
-}
 }

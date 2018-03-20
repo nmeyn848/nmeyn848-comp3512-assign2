@@ -16,7 +16,7 @@ class CitiesGateway extends Adapter {
     protected function getPrimaryKeyName() {
         return "CityCode";
     }
-     protected function getViaJoinCities(){
+     protected function getViaJoinCitiesImages(){
         return "SELECT c.AsciiName, c.CityCode FROM Cities c INNER JOIN ImageDetails i ON c.CityCode=i.CityCode GROUP BY c.CityCode ORDER BY c.AsciiName";
     }
 }

@@ -1,4 +1,5 @@
 <?php
+    /* Creates a user session. Checks to see if UserName and Password match, then creates a user session cookie and favorites list cookie */
     include "includes/db_config.inc.php";
     $db = new UsersLoginGateway($connection);
     if($_SERVER['REQUEST_METHOD'] == 'POST') {

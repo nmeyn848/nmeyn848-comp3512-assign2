@@ -6,6 +6,7 @@
         include "includes/css.inc.php"; 
         include "includes/db_config.inc.php";
         $db = new UsersGateway($connection);
+        /* Detects if a user session is set, or redirects to login. */
     if(!isset($_COOKIE['user'])){
         setCookie('error', 'login', time()+2);
         header('Location: login.php');
@@ -21,6 +22,7 @@
         <div class='jumbotron'>
             <div class='row'>
                 <?php
+                /* Displays information about the user logged in */
                     $result = $db->findViaJoin('u');
                     foreach ($result as $profile) {
                         if($profile['UserName'] == $_COOKIE['user']) {
@@ -38,6 +40,8 @@
             </div>
         </div>
     </div>
+    <?php //taken from labs 
+        include "includes/footer.inc.php"; ?>
 </body>
 
 </html>

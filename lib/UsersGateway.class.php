@@ -10,7 +10,7 @@ class UsersGateway extends Adapter {
     }
      
     protected function getOrderFields() {
-        return 'LastName, FirstName' ;
+        return 'LastName' ;
     }
     
     protected function getPrimaryKeyName() {

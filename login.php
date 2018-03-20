@@ -16,14 +16,14 @@
             <div class='row'>
                 <form action="make-session.php" method="post" role="login">
                     <div class="form-group">
+                        <!-- Creates a login page for the user to login -->
                         <?php 
+                            #Checks of there are errors being sent in via cookies
                             if(isset($_COOKIE['error']) && $_COOKIE['error'] == 'user') {
-                                echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
-                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
+                                echo '<div class="alert alert-danger fade in" role="alert">';
                                 echo 'User not found</div>';
                             } else if(isset($_COOKIE['error']) && $_COOKIE['error'] == 'login') {
-                                echo '<div class="alert alert-warning alert-dismissible fade in" role="alert">';
-                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
+                                echo '<div class="alert alert-warning fade in" role="alert">';
                                 echo 'Please login to access your account</div>';
                             }
                         ?>
@@ -32,12 +32,18 @@
                     </div>
                     <div class="form-group">
                         <?php
+                            #Checks if there is a password error
                             if(isset($_COOKIE['error']) && $_COOKIE['error'] == 'password') {
-                                echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
-                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
+                                echo '<div class="alert alert-danger fade in" role="alert">';
                                 echo 'Incorrect Password</div>';
                             }
                         ?>
+                        <script type='text/javascript'>
+                            /* Fades out the alert status */
+                            setTimeout(function() {
+                                $('.alert').fadeOut(400)
+                            }, 3000 );
+                        </script>
                         <label for='pword'>Password</label>
                         <input type='password' name='pword' class='form-control'>
                     </div>
@@ -47,6 +53,8 @@
             </div>
         </div>
     </div>
+    <?php //taken from labs 
+        include "includes/footer.inc.php"; ?>
 </body>
 
 </html>

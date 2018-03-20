@@ -15,9 +15,8 @@ include 'includes/db_config.inc.php';
     </body>
 </html>
 
-
 git add *;
-git commmit -m "your message";
+git commit -m "your message";
 git remote rm origin;
 git remote add origin https://github.com/nmeyn848/nmeyn848-comp3512-assign2;
 git push -u origin master

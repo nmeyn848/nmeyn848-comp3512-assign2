@@ -72,7 +72,7 @@ abstract class Adapter
       $sql = $this->getSelectStatement() . ' ORDER BY ' .
       $this->getOrderFields();
       if (! $ascending) {
-         $sql .= " DESC";
+         $sql .= " ASC";
       }
       $statement = DatabaseHelper::runQuery($this->connection, $sql, null);
       return $statement->fetchAll();
@@ -101,11 +101,12 @@ abstract class Adapter
          $sql = $this->getViaJoinImages();
       }
       else if ($tableJoin == "country") {
-         $sql = $this->getViaJoinCountries();
+         $sql = $this->getViaJoinCountriesImages();
       }
       else if ($tableJoin == "city") {
-         $sql = $this->getViaJoinCities();
+         $sql = $this->getViaJoinCitiesImages();
       }
+      
       
       $statement = DatabaseHelper::runQuery($this->connection, $sql, null);
       return $statement->fetchAll();
@@ -117,10 +118,21 @@ abstract class Adapter
          
          $sql = $this->getSelectStatement() . ' WHERE ' . $field . ' LIKE :id';
          
-      }else {
-      
-         $sql = $this->getSelectStatement() . ' WHERE ' . $field . '=:id';
       }
+      else if ($field == "ImageID"){
+         $sql = $this->getViaJoinSingleImages() . ' WHERE ' . $field . ' LIKE :id';
+      }
+      else if ($field == "PostID"){
+         $sql = $this->getViaJoinSinglePost() . ' WHERE ' . $field . ' = :id';
+      }
+      else if ($field == "PostImages"){
+         $sql = $this->getViaJoinPostImages() . ' = :id';
+      }
+      else {
+      
+         $sql = $this->getSelectStatement() . ' WHERE ' . $field . ' =:id';
+      }
+      
       $statement = DatabaseHelper::runQuery($this->connection, $sql,
       Array(':id' => $id));
       return $statement->fetchAll();

@@ -16,8 +16,8 @@ class CountriesGateway extends Adapter {
     protected function getPrimaryKeyName() {
         return "ISO";
     }
-     protected function getViaJoinCountries(){
-        return "SELECT c.CountryName, c.ISO FROM Countries c INNER JOIN ImageDetails i ON c.ISO=i.CountryCodeISO GROUP BY c.ISO ORDER BY c.CountryName";
+    protected function getViaJoinCountriesImages(){
+        return "SELECT c.CountryName, i.ImageID, i.Path, i.CountryCodeISO, c.ISO FROM Countries c INNER JOIN ImageDetails i ON c.ISO=i.CountryCodeISO GROUP BY c.ISO ORDER BY c.CountryName ";
     }
 }
 

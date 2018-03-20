@@ -1,10 +1,21 @@
+<?php
+    include 'set-fav.php';
+    /* Checks if a image wants to be favorited */
+    if($_GET['fav'] == true) {
+        setFavImg($_GET['id']);
+    }
+
+?>
+
 <!DOCTYPE  html>
 <html>
 <head>
      <title>Assign 1 (Winter 2018)</title>
     <?php //taken from labs 
         include "includes/css.inc.php"; 
-        include "includes/db_config.inc.php"; ?>
+        include "includes/db_config.inc.php"; 
+        $imagesDB = new ImagesGateway($connection);
+        ?>
         <style>
        #map {
         height: 250px;
@@ -19,15 +30,21 @@
         <div class="row">
             <?php include "includes/left.inc.php"; ?>
                <div class="col-md-10">
-                    <div class="col-md-8">
-                         <?php 
-                            $sql = "SELECT i.ImageID, i.Latitude, i.Longitude, i.UserID, i.Title, i.Description, i.Path, u.FirstName, u.LastName, i.CountryCodeISO, c.CountryName, c.ISO, ct.AsciiName, ct.CityCode FROM ImageDetails AS i JOIN Users AS u ON i.UserID=u.UserID JOIN Countries AS c ON i.CountryCodeISO=c.ISO JOIN Cities AS ct ON ct.CityCode=i.CityCode WHERE ImageID= :id";
-                            $statement = $pdo->prepare($sql);
-                            $statement->bindValue(':id',$_GET["id"]);
-                            $statement->execute();
+                   <?php
+                   /* Displays either a confirmation that the image was added or if it already exists */
+                   if($_GET['fav'] == true) {
+                        echo '<div class="alert alert-info fade in" alert.style.display="none" role="alert">';
+                        echo 'Added Image to Favorites</div>';
+                    } else if ($_GET['dup'] == true) {
+                        echo '<div class="alert alert-warning fade in" alert.style.display="none" role="alert">';
+                        echo 'Image is already in favorites list</div>';
+                    }
+                    echo '<div class="col-md-8">';
+                          /* Displays a single image */
                             
-                            if ($statement->rowCount() > 0){ 
-                                while ($record = $statement -> fetch()){
+                            $image = $imagesDB->findByNonPrimaryID("ImageID",$_GET["id"]);
+                            
+                                foreach($image as $record){
                                     echo '<img class="img-responsive" src="images/medium/'.$record["Path"].'" alt="'.$record["Title"].'"/><p>'.$record["Description"].'</p>';
                                     echo '</div>';
                                     echo '<div class ="col-md-4">';
@@ -43,24 +60,21 @@
                                         echo 'var marker = new google.maps.Marker({position: uluru, map: map });}';
                                     echo '</script>';
                                     echo '<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBuI02Z5KzIBl3jXFKnqK32QjOpWxpy5II&callback=initMap"></script>';
-                                }
-                            }else{
-                                header('Location: error.php');
-                            }
+                                 }
+                            
                         ?>
                         <!-- taken from labs -->
                             <div class="btn-group btn-group-justified" roll="group">
                                 <div class="btn-group" roll="group">
-                                    <button class ="btn btn-default" type="button"><span class="glyphicon glyphicon-heart"></span></button>
-                                </div>
-                                <div class="btn-group" roll="group">
-                                    <button class ="btn btn-default" type="button"><span class="glyphicon glyphicon-save"></span></button>
-                                </div>
-                                <div class="btn-group" roll="group">
-                                    <button class ="btn btn-default" type="button"><span class="glyphicon glyphicon-print"></span></button>
-                                </div>
-                                <div class="btn-group" roll="group">
-                                    <button class ="btn btn-default" type="button"><span class="glyphicon glyphicon-comment"></span></button>
+                                    <?php 
+                                        echo "<a href='single-image.php?id=" . $_GET['id']. "&fav=true'>";
+                                        echo '<button class ="btn btn-default" type="button"><span class="glyphicon glyphicon-heart"></span> Add to Favorites</button></a>';
+                                    ?>
+                                    <script type='text/javascript'>
+                                        setTimeout(function() {
+                                            $('.alert').fadeOut(400) 
+                                        }, 3000 );
+                                    </script>
                                 </div>
                             </div>
                         </div>

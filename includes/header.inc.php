@@ -9,12 +9,12 @@
                                 if(isset($_COOKIE['user'])){
                                     echo "<a href='clear-session.php'><span class='glyphicon glyphicon-log-out'></span> Logout</a>";
                                 } else {
-                                    echo "<a href='login.php'><span class='glyphicon glyphicon-log-in'></span> Login</a>'";
+                                    echo "<a href='login.php'><span class='glyphicon glyphicon-log-in'></span> Login</a>";
                                 }
                             ?>
                         </li> <!-- needs to change for logins and logouts -->
                         <li><a href="userProfile.php"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
-                        <li><a href="#"><span class="glyphicon glyphicon-star"></span> Favorites</a></li>
+                        <li><a href="show-fav.php"><span class="glyphicon glyphicon-star"></span> Favorites</a></li>
                     </ul>
                 </div>
             </div>
@@ -40,13 +40,14 @@
                     <ul class="nav navbar-nav navbar-left">
                         <li><a href="index.php">Home</a></li>
                         <li><a href="aboutus.php">About</a></li>
-                        <li><a href="test.php">Contact</a></li>
+                        <li><a href="#">Contact</a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Browse <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="browse-countries.php">Countries</a></li>
                                 <li><a href="browse-images.php">Images</a></li>
                                 <li><a href="browse-posts.php">Posts</a></li>
+                                <li><a href="browse-users.php">Users</a></li>
                             </ul>
                         </li>
                     </ul>

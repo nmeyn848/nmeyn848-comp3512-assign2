@@ -16,7 +16,7 @@ class DatabaseHelper {
     }
 
 
-	// run an SQL query and return the cursor to the database
+	//run an SQL query and return the cursor to the database
     public static function runQuery($connection, $sql, $parameters=array()) {
         // Ensure parameters are in an array
         if (!is_array($parameters)) {

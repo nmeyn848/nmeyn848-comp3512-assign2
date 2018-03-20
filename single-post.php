@@ -1,3 +1,12 @@
+<?php
+    include 'set-fav.php';
+    /* Checks if a post wants to be favorited */
+    if($_GET['fav'] == true) {
+        setFavPost($_GET['id']);
+    }
+
+?>
+
 <!DOCTYPE  html>
 <html>
 <head>
@@ -5,7 +14,8 @@
     <?php //taken from labs 
         include "includes/css.inc.php"; 
         include "includes/db_config.inc.php"; 
-        $db = new PostsGateway($connection); 
+        $postsDB = new PostsGateway($connection);
+        $imagesDB = new ImagesGateway($connection);
     ?>
 </head>
 
@@ -15,61 +25,55 @@
         <div class="row">
             <?php include "includes/left.inc.php"; ?>
                <div class="col-md-10">
-                    <div class="col-md-8">
-                         <?php 
-                            $sql = "SELECT p.PostID, u.UserID, p.Title, p.Message, p.PostTime, p.MainPostImage, u.FirstName, u.LastName, i.Path FROM Posts AS p JOIN Users AS u ON p.UserID = u.UserID JOIN ImageDetails i ON p.MainPostImage = i.ImageID WHERE PostID = :id";
-                            $statement = $pdo->prepare($sql);
-                            $statement->bindValue(':id',$_GET["id"]);
-                            $statement->execute();
+                   <?php
+                   /* Displays either a confirmation that the post was added or if it already exists */
+                    if($_GET['fav'] == true) {
+                        echo '<div class="alert alert-info fade in" alert.style.display="none" role="alert">';
+                        echo 'Added Post to Favorites</div>';
+                    } else if ($_GET['dup'] == true) {
+                        echo '<div class="alert alert-warning fade in" alert.style.display="none" role="alert">';
+                        echo 'Post is already in favorites list</div>';
+                    }
+                    echo '<div class="col-md-8">';
+                            /* Displays a single post */
+                            $posts = $postsDB->findByNonPrimaryID("PostID",$_GET["id"]);
                             
-                            if ($statement->rowCount() > 0){ 
-                                while ($record = $statement -> fetch()){
+                            foreach($posts as $record){
                                     echo '<img class="img-responsive" src="images/medium/'.$record["Path"].'" alt="'.$record["Title"].'"/><p>'.$record["Message"].'</p>';
                                     echo '</div>';
                                     echo '<div class ="col-md-4">';
-                                    echo '<h2>'.$record[Title].'</h2><div class="panel panel-default"><div class="panel-body"><ul class="details-list">';
+                                    echo '<h2>'.$record['Title'].'</h2><div class="panel panel-default"><div class="panel-body"><ul class="details-list">';
                                     echo '<li class="list-group-item">By: <a href="single-user.php?id='.$record["UserID"].'">'.$record["FirstName"].' '.$record["LastName"].'</a></li>';
-                                    echo '<li class="list-group-item">Posted on: '.$record["PostTime"].'</a></li></ul></div></div>';
+                                    $date = strtotime($record['PostTime']);
+                                    $format = date('Y-m-d', $date);
+                                    echo '<li class="list-group-item">Posted on: '.$format.'</a></li></ul></div></div>';
                                     
-                                }
-                            }else{
-                                header('Location: error.php');
-                            }
+                                 }
                         ?>
                         <!-- taken from labs -->
                             <div class="btn-group btn-group-justified" roll="group">
                                 <div class="btn-group" roll="group">
                                     <?php
-                                        include 'set-fav.php';
-                                        if($_GET['fav'] == true) {
-                                            setFavPost($_GET['id']);
-                                        }
                                         echo "<a href='single-post.php?id=" . $_GET['id']. "&fav=true'>";
                                         echo '<button class ="btn btn-default" type="button"><span class="glyphicon glyphicon-heart"></span> Add to Favorites</button></a>';
-                                        /*
-                                        $records = $db->findViaJoin('i');
-                                        foreach($records as $record) {
-                                            if($record['PostID'] == $_GET['id']) {
-                                                
-                                            }
-                                        }
-                                        */
                                     ?>
+                                    <script type='text/javascript'>
+                                        setTimeout(function() {
+                                            $('.alert').fadeOut(400) 
+                                        }, 3000);
+                                    </script>
                                 </div>
                             </div>
                             <div class="panel panel-default">
                             <h3>Related Pictures</h3>
                             <?php
-                                $sql = " SELECT pi.PostID, i.Title, i.ImageID, i.Path FROM PostImages AS pi JOIN ImageDetails AS i ON pi.ImageID = i.ImageID JOIN Posts AS p ON p.PostID = pi.PostID WHERE pi.ImageID != p.MainPostImage AND pi.PostID = :id";
-                                $statement = $pdo->prepare($sql);
-                                $statement->bindValue(':id',$_GET["id"]);
-                                $statement->execute();
                                 
-                                if ($statement->rowCount() > 0){ 
-                                    while ($record = $statement -> fetch()){
-                                        echo '<img class="img-responsive" src="images/medium/'.$record["Path"].'" alt="'.$record["Title"].'"/>';
-                                    }
+                                $images = $imagesDB->findByNonPrimaryID("PostImages",$_GET["id"]);
+                                
+                                foreach($images as $record){
+                                    echo '<img class="img-responsive" src="images/medium/'.$record["Path"].'" alt="'.$record["Title"].'"/>';
                                 }
+                                
                             ?>
                         </div>
                     </div>

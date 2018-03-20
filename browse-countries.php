@@ -9,19 +9,20 @@
 <body>
     
     <?php //taken from labs 
-        include "includes/header.inc.php"; ?>
+        include "includes/header.inc.php";
+        $countriesDB = new CountriesGateway($connection);
+    ?>
     <div class="container">
         <div class='panel panel-info'>
             <div class="panel panel-heading">Countries with Images</div>
                 <div class='panel-body'>
                     <div class='row'>
                     <?php
-                    
-                        $sql = "SELECT c.CountryName, i.CountryCodeISO, c.ISO  FROM Countries c JOIN ImageDetails i ON (c.ISO=i.CountryCodeISO) GROUP BY CountryName";
-                        $result = $pdo->query($sql);
-                    
-                        while ($record = $result -> fetch()){
-                            echo "<div class='col-md-3'><a href='single-country.php?id=".$record["CountryCodeISO"]."'>".$record["CountryName"]."</a></div>";
+                        
+                        $result = $countriesDB->findViaJoin("country");
+                        
+                        foreach($result as $country){
+                            echo "<div class='col-md-3'><a href='single-country.php?id=".$country["CountryCodeISO"]."'>".$country["CountryName"]."</a></div>";
                         }
                     ?>
                 </div>
