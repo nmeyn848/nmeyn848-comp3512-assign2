@@ -18,6 +18,21 @@
         $imagesDB = new ImagesGateway($connection);
     ?>
 </head>
+<script type="text/javascript">
+   
+        function imgHover(id){
+            id.style.height = "150px";
+            id.style.width = "150px";
+
+        }
+
+        function imgOut(id) {
+            id.style.height = "75px";
+            id.style.width = "75px";;
+           
+        }
+        
+   </script>
 
 <body>
     <?php include "includes/header.inc.php";?>
@@ -71,7 +86,7 @@
                                 $images = $imagesDB->findByNonPrimaryID("PostImages",$_GET["id"]);
                                 
                                 foreach($images as $record){
-                                    echo '<img class="img-responsive" src="images/medium/'.$record["Path"].'" alt="'.$record["Title"].'"/>';
+                                    echo '<img onmouseover="imgHover(this)" onmouseout="imgOut(this)" class="img-responsive" src="images/medium/'.$record["Path"].'" alt="'.$record["Title"].'"/>';
                                 }
                                 
                             ?>

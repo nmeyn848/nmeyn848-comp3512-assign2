@@ -7,6 +7,21 @@
         include "includes/db_config.inc.php";
         $usersDB = new UsersGateway($connection);
         $imagesDB = new ImagesGateway($connection);?>
+        <script type="text/javascript">
+   
+        function imgHover(id){
+            id.style.height = "150px";
+            id.style.width = "150px";
+
+        }
+
+        function imgOut(id) {
+            id.style.height = "75px";
+            id.style.width = "75px";;
+           
+        }
+        
+     </script>
 </head>
 <body>
     
@@ -28,7 +43,7 @@
                 $images = $imagesDB->findByNonPrimaryID("UserID",$_GET["id"]);
                 
                 foreach($images as $image){
-                        echo '<div class="col-md-1"> <a href="single-image.php?id='.$image["ImageID"].'" class="img-responsive"><img src="/images/square-small/'.$image["Path"].'"></a></div>';
+                        echo '<div class="col-md-1"> <a href="single-image.php?id='.$image["ImageID"].'" class="img-responsive"><img onmouseover="imgHover(this)" onmouseout="imgOut(this)" src="/images/square-small/'.$image["Path"].'"></a></div>';
                         
                     }
                     echo "</div></div></div>";
